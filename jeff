@@ -1,0 +1,209 @@
+
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextButton = Instance.new("TextButton")
+local UICorner = Instance.new("UICorner")
+local TextLabel = Instance.new("TextLabel")
+local heygui = Instance.new("TextLabel")
+local imaginelooking = Instance.new("TextLabel")
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame.Position = UDim2.new(0.304878056, 0, 0.626185954, 0)
+Frame.Size = UDim2.new(0, 254, 0, 137)
+Frame.Style = Enum.FrameStyle.ChatBlue
+
+TextButton.Parent = Frame
+TextButton.BackgroundColor3 = Color3.fromRGB(112, 112, 112)
+TextButton.Position = UDim2.new(0.0532484874, 0, 0.633824706, 0)
+TextButton.Size = UDim2.new(0, 200, 0, 25)
+TextButton.Font = Enum.Font.Sarpanch
+TextButton.Text = "Fly"
+TextButton.TextColor3 = Color3.fromRGB(175, 241, 113)
+TextButton.TextScaled = true
+TextButton.TextSize = 14.000
+TextButton.TextWrapped = true
+
+UICorner.Parent = TextButton
+
+TextLabel.Parent = Frame
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BackgroundTransparency = 1.000
+TextLabel.Position = UDim2.new(-0.0031786412, 0, -0.109207153, 0)
+TextLabel.Size = UDim2.new(0, 227, 0, 29)
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Text = "cool fly thing 2.0"
+TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 14.000
+TextLabel.TextWrapped = true
+
+heygui.Name = "heygui"
+heygui.Parent = Frame
+heygui.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+heygui.BackgroundTransparency = 1.000
+heygui.Position = UDim2.new(0.00548943877, 0, 0.163619995, 0)
+heygui.Size = UDim2.new(0, 227, 0, 41)
+heygui.Font = Enum.Font.SourceSans
+heygui.Text = "Click the button below then press \"E\""
+heygui.TextColor3 = Color3.fromRGB(0, 0, 0)
+heygui.TextScaled = true
+heygui.TextSize = 14.000
+heygui.TextWrapped = true
+
+imaginelooking.Name = "imaginelooking"
+imaginelooking.Parent = Frame
+imaginelooking.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+imaginelooking.BackgroundTransparency = 1.000
+imaginelooking.Position = UDim2.new(-0.00783136487, 0, 0.972712576, 0)
+imaginelooking.Size = UDim2.new(0, 227, 0, 17)
+imaginelooking.Font = Enum.Font.SourceSans
+imaginelooking.Text = "Made by lxke | No hats required"
+imaginelooking.TextColor3 = Color3.fromRGB(0, 0, 0)
+imaginelooking.TextScaled = true
+imaginelooking.TextSize = 14.000
+imaginelooking.TextWrapped = true
+
+-- Scripts:
+
+local function HMWC_fake_script() -- TextButton.Flying Script 
+	local script = Instance.new('LocalScript', TextButton)
+
+	--Flying Script--
+	--Press "E" To Fly And Unfly--
+	script.parent.MouseButton1Down:connect(function()
+		repeat wait() 
+		until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("Head") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid") 
+		local mouse = game.Players.LocalPlayer:GetMouse() 
+		repeat wait() until mouse
+		local plr = game.Players.LocalPlayer 
+		local torso = plr.Character.Head 
+		local flying = false
+		local deb = true 
+		local ctrl = {f = 0, b = 0, l = 0, r = 0} 
+		local lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+		local maxspeed = 50 
+		local speed = 0 
+	
+		function Fly() 
+			local bg = Instance.new("BodyGyro", torso) 
+			bg.P = 9e4 
+			bg.maxTorque = Vector3.new(9e9, 9e9, 9e9) 
+			bg.cframe = torso.CFrame 
+			local bv = Instance.new("BodyVelocity", torso) 
+			bv.velocity = Vector3.new(0,0.1,0) 
+			bv.maxForce = Vector3.new(9e9, 9e9, 9e9) 
+			repeat wait() 
+				plr.Character.Humanoid.PlatformStand = true 
+				if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then 
+					speed = speed+.5+(speed/maxspeed) 
+					if speed > maxspeed then 
+						speed = maxspeed 
+					end 
+				elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then 
+					speed = speed-1 
+					if speed < 0 then 
+						speed = 0 
+					end 
+				end 
+				if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then 
+					bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+					lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r} 
+				elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then 
+					bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+				else 
+					bv.velocity = Vector3.new(0,0.1,0) 
+				end 
+				bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0) 
+			until not flying 
+			ctrl = {f = 0, b = 0, l = 0, r = 0} 
+			lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+			speed = 0 
+			bg:Destroy() 
+			bv:Destroy() 
+			plr.Character.Humanoid.PlatformStand = false 
+		end 
+		mouse.KeyDown:connect(function(key) 
+			if key:lower() == "e" then 
+				if flying then flying = false 
+				else 
+					flying = true 
+					Fly() 
+				end 
+			elseif key:lower() == "w" then 
+				ctrl.f = 1 
+			elseif key:lower() == "s" then 
+				ctrl.b = -1 
+			elseif key:lower() == "a" then 
+				ctrl.l = -1 
+			elseif key:lower() == "d" then 
+				ctrl.r = 1 
+			end 
+		end) 
+		mouse.KeyUp:connect(function(key) 
+			if key:lower() == "w" then 
+				ctrl.f = 0 
+			elseif key:lower() == "s" then 
+				ctrl.b = 0 
+			elseif key:lower() == "a" then 
+				ctrl.l = 0 
+			elseif key:lower() == "d" then 
+				ctrl.r = 0 
+			end 
+		end)
+		Fly()
+	end)
+end
+coroutine.wrap(HMWC_fake_script)()
+local function PTLHD_fake_script() -- Frame.Drag 
+	local script = Instance.new('LocalScript', Frame)
+
+	local UserInputService = game:GetService("UserInputService")
+	
+	local gui = script.Parent
+	
+	local dragging
+	local dragInput
+	local dragStart
+	local startPos
+	
+	local function update(input)
+		local delta = input.Position - dragStart
+		gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	end
+	
+	gui.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			dragging = true
+			dragStart = input.Position
+			startPos = gui.Position
+			
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+	
+	gui.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			dragInput = input
+		end
+	end)
+	
+	UserInputService.InputChanged:Connect(function(input)
+		if input == dragInput and dragging then
+			update(input)
+		end
+	end)
+end
+coroutine.wrap(PTLHD_fake_script)()
